@@ -1,12 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+//引入scss,定义resetcss和全局css mixin函数和全局样式
+import "@/common/css/index.scss"
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+// 引入App作为根渲染组件
+import App from './App';
+
+//引入淘宝框架
+import "react-flexible"
+
+// 引入哈希路由包裹App
+import { HashRouter as Router } from "react-router-dom"
+
+//引入redux的provider包裹App
+import { Provider } from "react-redux"
+
+//导入store,包括所有的reducer
+import store from "@/store"
+
+//渲染
+ReactDOM.render(
+    <Provider store = {store}>
+        <Router>
+            <App />
+        </Router>
+    </Provider>,
+    document.getElementById('root')
+);
 serviceWorker.unregister();
