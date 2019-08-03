@@ -1,43 +1,37 @@
 // 这是首页组件
 import React, { Component } from "react"
-import {connect} from "react-redux"
+import { connect } from "react-redux"
 
-//导入获取热门城市数据的dispatch
-import {getHotCity} from "./actionCreator"
+import TopSearch from "./TopSearch" // 导入顶部搜索条
 
+
+// 展开this.props的数据:
+const mapStateToProps = (state) => {
+    return {
+        // userSelectCity: state.getIn(["HomeReducer", "hot_City"]),//城市组件的热门城市数据
+    }
+}
+
+//展开方法:
+const mapDispatchToProps = (dispatch) => {
+    return {
+        //这是触发获取用户选择的城市的方法:
+    }
+}
 
 class Home extends Component {
     constructor() {
         super();
-        this.state = {
-
-        }
+    }
+    componentWillMount() {
     }
     render() {
         return (
             <div id="home">
-                {this.props.hot_City + "1"}
-                主页
+                <TopSearch></TopSearch>
             </div>
         )
     }
-    componentDidMount(){
-        this.props.getHotCitydata()
-    }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        hot_City: state.hot_City
-    }
-}
-
-const mapDispatchToProps = (dispatch)=>{
-    return {
-        //这是触发获取热门城市的方法:
-        getHotCitydata(){
-            dispatch(getHotCity(dispatch))
-        }
-    }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

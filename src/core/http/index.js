@@ -1,10 +1,9 @@
 // 这是对axios的公共配置部分
 import axios from "axios"
 
-const baseURL = window.location.host.indexOf(".com") != -1 ? "" : "/apis";
 
 var instance = axios.create({
-    baseURL,
+    baseURL:"",
     //设置超时时间
     // `timeout` 指定请求超时的毫秒数(0 表示无超时时间)
     // 如果请求话费了超过 `timeout` 的时间，请求将被中断
