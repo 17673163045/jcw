@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import immutable from "immutable"
 
 import TopSearch from "./TopSearch" // 导入顶部搜索条
-import { TopBanner, ClassifyList } from "@/components/Home/ClassifyHome"
+import { TopBanner, ClassifyList, Advert, OperationList} from "@/components/Home/ClassifyHome"
 import { getClassifyHome } from "@/components/Home/actionCreator"
 
 // 展开this.props的数据:
@@ -32,15 +32,18 @@ class Home extends Component {
         this.props.getClassifyHomeData(this.props.userSelectParams)
     }
     render() {
-        //如果获取到了ClassifyHomeData数据,
-        if (this.props.ClassifyHomeData) {
-            var bannerList = this.props.ClassifyHomeData.data.data.slide_list
-        }
+        if(!this.props.ClassifyHomeData) return null;
+            let bannerList = this.props.ClassifyHomeData.data.data.slide_list
+            let adList = this.props.ClassifyHomeData.data.data.ad_list
+            let operationList = this.props.ClassifyHomeData.data.data.operation_list
+            console.log(operationList)
         return (
             <div id="home">
                 <TopSearch></TopSearch>
                 <TopBanner bannerList={bannerList}></TopBanner>
                 <ClassifyList></ClassifyList>
+                <Advert adList={adList}></Advert>
+                <OperationList operationList={operationList}></OperationList>
             </div>
         )
     }

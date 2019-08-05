@@ -2,6 +2,8 @@ import React, { PureComponent } from "react"
 import styled from "styled-components"
 import CurrentCity from "./CurrentCity" // 导入定位城市组件 
 import Search from "./Search"// 导入搜索框
+import globalFns from "@/core/globalFns"
+const r = globalFns.r; //计算rem的函数
 const topsearchimg = require("@/images/topsearchimg.png")
 
 class TopSearch extends PureComponent {
@@ -20,11 +22,14 @@ class TopSearch extends PureComponent {
 
 const Wrap = styled.div`
     position:fixed;
+    width:${r(375)};
+    left:0;
+    right:0;
+    margin:0 auto;
     z-index:9999;
     display:flex;
     justify-content:space-between;
     height:auto;
-    width:100%;
     padding:6px 10px;
 `
 const TopSearchImg = styled.div`

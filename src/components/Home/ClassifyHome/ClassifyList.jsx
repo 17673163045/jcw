@@ -1,11 +1,7 @@
 import React, { Component } from "react"
 import styled from "styled-components"
-
-function r(x) {
-    const baseFont = 37.5;
-    return x / baseFont + "rem"
-}
-
+import globalFns from "@/core/globalFns"
+const r = globalFns.r; //计算rem的函数
 
 class ClassifyList extends Component {
     constructor() {
@@ -33,20 +29,22 @@ class ClassifyList extends Component {
     }
     render() {
         return (
-            <LabelContain>
+            <Wrap>
                 {this.state.itemList}
-            </LabelContain>
+            </Wrap>
         )
     }
 }
 
 //样式
-const LabelContain = styled.div`
+const Wrap = styled.div`
     display:flex;
-    justify-content:space-between;
-    padding:${r(16)} ${r(26)};
+    width:${r(375)};
+    margin:0 auto;
+    padding:${r(16)} 0;
 `;
 const LabelItem = styled.div`
+    margin:auto;
     width:${r(51)};
     height:${r(75)};
 `
