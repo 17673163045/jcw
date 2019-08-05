@@ -25,18 +25,27 @@ export const getCityList = (dispatch) => {
     }
 }
 
-//请求首页的数据的dispatch函数,由用户选择的城市动态请求,需要传入请求参数params
-export const getHomeData = (dispatch,params) =>{
+// 用户点击改变城市请求参数,item是循环后每个城市按钮带的参数,传给store
+export const changeParams = (dispatch,item)=>{
+    return ()=>{
+        dispatch({ type:'CHANGE_PARAMS',val:item})
+    }
+}
+
+//请求首页的数据'classifyHome'的dispatch函数,
+export const getClassifyHome = (dispatch,userSelect) =>{
     return ()=>{
         request({
             method:"get",
             url:"/home/index/getClassifyHome",
             params:{
-                city_id:params.city_id,
-                abbreviation: params.abbreviation,
+                city_id: userSelect.id,
+                abbreviation: userSelect.Abbreviation,
                 version:"6.0.1",
                 referer:"2"
             }
+        }).then((res)=>{
+            dispatch({type:"GET_CLASSIFY_HOME",val:res})
         })
     }
 }

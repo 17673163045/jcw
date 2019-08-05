@@ -1,4 +1,4 @@
-import { Route, Redirect, Switch, exact} from "react-router-dom"
+import { Route, Redirect, Switch} from "react-router-dom"
 import React, { PureComponent, Fragment } from "react"
 
 import Home from "@/components/Home"
@@ -13,14 +13,14 @@ export default class extends PureComponent {
     render() {
         return (
             < Fragment >
-               <Switch>
-                    <Route path="/home"  component={Home}></Route>
-                    <Route path="/selectCity"  component={City}></Route>
-                    <Route path="/theatre" component={Theatre}></Route>
-                    <Route path="/wallet" component={Wallet}></Route>
-                    <Route path="/usermy" component={UserMy}></Route>
+                <Switch>
+                    <Route exact path="/home" component={Home}></Route>
+                    <Route exact path="/selectCity" component={City}></Route>
+                    <Route exact path="/theatre" component={Theatre}></Route>
+                    <Route exact path="/wallet" component={Wallet}></Route>
+                    <Route exact path="/usermy" component={UserMy}></Route>
                     <Redirect path="/" to="/home"></Redirect>
-               </Switch> 
+                </Switch>
             </Fragment >
         )
     }

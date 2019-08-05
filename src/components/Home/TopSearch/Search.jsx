@@ -13,9 +13,13 @@ const Wrap = styled.div`
     height:30px;
     width:100%;
     border-radius:30px;
-    border: 1px solid #e8e8e8;
+    border: 1px solid;
+    border-color:rgba(78, 78, 78, 0.1);
     color:#fff;
     background-color:rgba(0,0,0,.1);
+    }
+    input::placeholder{
+        color:#fff;
     }
 `
 

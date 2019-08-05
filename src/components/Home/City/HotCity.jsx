@@ -1,41 +1,61 @@
 // 这是热门城市组件
 import React, { PureComponent } from "react"
 import styled from "styled-components"
+import { connect } from "react-redux"
+import { withRouter } from "react-router-dom"
+//引入触发改变城市请求参数的dispatch函数
+import { changeParams } from "@/components/Home/actionCreator"
+// 展开数据
+const mapStateToprops = () => {
+    return {}
+}
+
+//展开方法
+const mapDispatchToProps = (dispatch) => {
+    return {
+        //这是选择城市后改变store里的请求参数方法
+        changeParams(item) {
+            dispatch(changeParams(dispatch, item))
+        }
+    }
+}
 
 class HotCity extends PureComponent {
-    constructor() {
-        super();
-        // this.state = {
-        //     renderList: [<CityButton key={0} onClick={this.selectCity.bind(this)}>全国</CityButton>]
-        // }
-    }
-    // selectCity(item){
-    //     console.log(item)
-    // }
-    // componentWillReceiveProps(next){
-    //     if (!next.hotCityList) return;
-    //     let list = next.hotCityList;
-    //     list.map((item) => {
-    //         return this.state.renderList.push(
-    //             <CityButton key={item.id} onClick={this.selectCity.bind(this, item)}>{item.name}</CityButton>
-    //         )
-    //     })
-    // }
     render() {
-        // console.log()
-        if (this.props.hotCityList){
-            console.log(this.props.hotCityList)
-        }else{
-            return null;
-        }
+        if (!this.props.hotCityList) return null;
+        //渲染热门城市的列表
+        let renderList = [];
+        let list = [{
+            id: 0,
+            name: "全国",
+            is_city: 0,
+            Abbreviation: ""
+        }]
+        list = list.concat(this.props.hotCityList);
+        //循环列表
+        list.map((item) => {
+            return renderList.push(
+                <CityButton key={item.id} onClick={this.selectCity.bind(this, item)}>{item.name}</CityButton>
+            )
+        })
         return (
             <Wrap>
                 <div className="title">热门城市</div>
                 <div className="list-wrap">
-                    {/* {this.state.renderList} */}
+                    {renderList}
                 </div>
             </Wrap>
         )
+    }
+    // 点击事件,传入item(城市信息),点击修改城市,首页的数据发生改变
+    selectCity(item) {
+        this.props.changeParams(item);
+        window.localStorage.setItem("selectParams", JSON.stringify(item))
+        this.backHome();
+    }
+    // 返回首页的函数
+    backHome() {
+        this.props.history.push("/home")
     }
 }
 
@@ -49,7 +69,6 @@ const CityButton = styled.div`
     border-radius:2px;
     line-height:38px;
     text-align:center;
-    background-color:#fff;
     box-shadow:inset 1px 1px 6px #fff,inset -1px -1px 6px #fff;
     margin-right:6px;
     margin-bottom:6px;
@@ -74,4 +93,4 @@ const Wrap = styled.div`
         flex-wrap:wrap;
     }
 `
-export default HotCity
+export default withRouter(connect(mapStateToprops, mapDispatchToProps)(HotCity))

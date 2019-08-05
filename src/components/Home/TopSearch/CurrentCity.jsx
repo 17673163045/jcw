@@ -4,13 +4,27 @@ import React, { PureComponent } from "react"
 import styled from "styled-components"
 const placeIcon = require("@/images/CurrentCity.png")
 
+class CurrentCity extends PureComponent {
+    render() {
+        return (
+            <NavLink to="/selectCity">
+                <Wrap>
+                    <strong></strong>
+                    <i>全国</i>
+                </Wrap>
+            </NavLink>
+        )
+    }
+}
+
 const Wrap = styled.div`
     display:flex;
     padding:6px 10px;
     height:30px;
     width:66px;
     border-radius:30px;
-    border: 1px solid #e8e8e8;
+    border: 1px solid;
+    border-color:rgba(78, 78, 78, 0.1);
     color:#fff;
     background-color:rgba(0,0,0,.1);
     strong{
@@ -26,16 +40,4 @@ const Wrap = styled.div`
         margin-left:2px;
     }
 `
-class CurrentCity extends PureComponent {
-    render() {
-        return (
-            <NavLink to="/selectCity">
-                <Wrap>
-                    <strong></strong>
-                    <i>全国</i>
-                </Wrap>
-            </NavLink>
-        )
-    }
-}
 export default CurrentCity

@@ -1,9 +1,26 @@
 import React, { PureComponent } from "react"
 import styled from "styled-components"
-import CurrentCity from "../City/CurrentCity" // 导入定位城市组件 
+import CurrentCity from "./CurrentCity" // 导入定位城市组件 
 import Search from "./Search"// 导入搜索框
 const topsearchimg = require("@/images/topsearchimg.png")
+
+class TopSearch extends PureComponent {
+    render() {
+        return (
+            <Wrap>
+                <CurrentCity></CurrentCity>
+                <Search></Search>
+                <TopSearchImg>
+                    <img src={topsearchimg} alt=""/>
+                </TopSearchImg>
+            </Wrap>
+        )
+    }
+}
+
 const Wrap = styled.div`
+    position:fixed;
+    z-index:9999;
     display:flex;
     justify-content:space-between;
     height:auto;
@@ -18,18 +35,5 @@ const TopSearchImg = styled.div`
         width:100;
     }
 `
-class TopSearch extends PureComponent {
-    render() {
-        return (
-            <Wrap>
-                <CurrentCity></CurrentCity>
-                <Search></Search>
-                <TopSearchImg>
-                    <img src={topsearchimg} alt=""/>
-                </TopSearchImg>
-            </Wrap>
-        )
-    }
-}
 
 export default TopSearch

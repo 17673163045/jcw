@@ -4,3 +4,4 @@ class globalFns {
         return x / baseFont + "rem"
     }
 }
+export default new globalFns()
