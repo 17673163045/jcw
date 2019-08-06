@@ -6,7 +6,7 @@ const r = globalFns.r; //计算rem的函数
 
 class Cover extends PureComponent {
     render() {
-        console.log(this.props.CoverData)
+        if(!this.props.CoverData) return null
         return (
             <Wrap CoverColor={this.props.CoverColor}>
                 <div className="leftImg">

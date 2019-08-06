@@ -104,6 +104,24 @@ class Home extends PureComponent {
         //演唱会,音乐剧等的数据
         let flowerShowData = this.props.flowerShow.data.data;
         flowerShowData = JSON.stringify(flowerShowData) === "{}" ? [] : flowerShowData
+        let flowerShowList = [];
+        let CoverColorList=["rgb(106, 109, 116)","rgb(214, 201, 202)","rgb(137, 40, 45)","rgb(51, 43, 34)","rgb(69, 41, 29)"]
+        flowerShowData.map((item, index) => {
+            if (item.list.length >= 4) {
+                flowerShowList.push(
+                    <CommonBanner
+                        key={index}
+                        bannerList={item.list.slice(1)} //轮播数据
+                        title={item.title} //标题
+                        fontSize="16" //描述部分字体大小
+                        isPrice={true} //需要价格组件?
+                        isCover={true} //需要封面组件?
+                        CoverColor={CoverColorList[index]} //封面颜色
+                        CoverData={item.list[0]}
+                    ></CommonBanner>
+                )
+            }
+        })
         console.log(flowerShowData)
         //为你推荐的数据
         let recommendShow = this.props.RecommendShow.data.data.recommend_show_list
@@ -126,21 +144,8 @@ class Home extends PureComponent {
                         title={"热门演出"}
                     >
                     </CommonBanner>) : null}
-                {/* 演唱会部分 */}
-                {
-                    flowerShowData.map((item, index) => (
-                        <CommonBanner
-                            key={index}
-                            bannerList={item.list.slice(1)} //轮播数据
-                            title={item.title} //标题
-                            fontSize="16" //描述部分字体大小
-                            isPrice={true} //需要价格组件?
-                            isCover={true} //需要封面组件?
-                            CoverColor={"rgb(98, 88, 78)"} //封面颜色
-                            CoverData={item.list[0]}
-                        ></CommonBanner>
-                    ))
-                }
+                {/* 演唱会,音乐剧等等部分 */}
+                {flowerShowList}
                 <RecommendShow recommendShow={recommendShow}></RecommendShow>
             </div>
         )
