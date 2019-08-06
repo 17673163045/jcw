@@ -2,6 +2,9 @@
 import { NavLink } from "react-router-dom"
 import React, { PureComponent } from "react"
 import styled from "styled-components"
+import globalFns from "@/core/globalFns"
+const r = globalFns.r; //计算rem的函数
+
 const placeIcon = require("@/images/CurrentCity.png")
 
 class CurrentCity extends PureComponent {
@@ -28,14 +31,18 @@ const Wrap = styled.div`
     color:#fff;
     background-color:rgba(0,0,0,.1);
     strong{
-        flex:1;
+        width:${r(20)};
         background:url(${placeIcon}) no-repeat center;
         background-size:100% 100%
     }
     i{
+        width:${r(46)};
+        white-space:nowrap;
+        overflow: hidden;
+        text-overflow:ellipsis;
         font-style:normal;
         font-weight:bolder;
-        font-size:15px;
+        font-size:14px;
         line-height:18px;
         margin-left:2px;
     }

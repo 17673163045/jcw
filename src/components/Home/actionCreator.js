@@ -48,3 +48,55 @@ export const getClassifyHome = (dispatch,userSelect) =>{
         })
     }
 }
+
+//请求首页的热门演出数据
+export const getHotRecommend = (dispatch,cityId) =>{
+    return ()=>{
+        request({
+            method:"get",
+            url:"/home/index/getHotsRecommendList",
+            params:{
+                city_id: cityId,
+                version:"6.0.3",
+                referer:"2"
+            }
+        }).then((res)=>{
+            dispatch({ type:"GET_HOT_RECOMMEND",val:res})
+        })
+    }
+}
+
+//请求演唱会,音乐剧,儿童剧等分类数据
+export const getFlowerShow = (dispatch,cityId) =>{
+    return ()=>{
+        request({
+            method:"get",
+            url:"/home/index/getFloorShow",
+            params:{
+                city_id: cityId,
+                version: "6.0.3",
+                referer: "2"
+            }
+        }).then((res)=>{
+            dispatch({ type:"GET_FLOWER_SHOW",val:res})
+        })
+    }
+}
+
+//请求为你推荐的数据
+export const getRecommendShow = (dispatch,page) =>{
+    return ()=>{
+        request({
+            method:"get",
+            url:"/home/index/getRecommendShow",
+            params:{
+                cityAdd:"",
+                page: page,
+                version:"6.0.3",
+                referer:"2"
+            }
+        }).then((res)=>{
+            dispatch({type:"GET_RECOMMEND_SHOW",val:res})
+        })
+    }
+}

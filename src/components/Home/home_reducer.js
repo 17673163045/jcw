@@ -5,9 +5,11 @@ import immutable from "immutable"
 const defaultState = immutable.fromJS({
     hot_City: "",  //城市选择模块的热门城市数据
     city_List: "", // 城市选择模块展示所有城市数据
-    // 用户选择的城市对应的请求参数,默认是0,全国
-    userSelectParams:"",
-    classifyHomeData: ""
+    userSelectParams: "",// 用户选择的城市对应的请求参数,默认是0,全国
+    classifyHomeData: "",//首页分类数据
+    hotRecommendData: "", //热门演出数据
+    flowerShowData: "", //演唱会等数据
+    recommendShow: "",//为你推荐的数据
 })
 export default (state = defaultState, action) => {
     switch (action.type) {
@@ -23,9 +25,22 @@ export default (state = defaultState, action) => {
         case "CHANGE_PARAMS":
             let userSelectParams = immutable.fromJS(action.val);
             return state.update("userSelectParams", (val) => val = userSelectParams);
+        //首页分类的数据
         case "GET_CLASSIFY_HOME":
             let classifyHomeData = action.val;
-            return state.update("classifyHomeData", (val) => val = classifyHomeData)
+            return state.update("classifyHomeData", (val) => val = classifyHomeData);
+        //热门推荐的数据
+        case "GET_HOT_RECOMMEND":
+            let hotRecommendData = action.val;
+            return state.update("hotRecommendData", (val) => val = hotRecommendData);
+        //演唱会,音乐剧等轮播数据
+        case "GET_FLOWER_SHOW":
+            let flowerShowData = action.val;
+            return state.update("flowerShowData", (val) => val = flowerShowData);
+        //为你推荐的数据
+        case "GET_RECOMMEND_SHOW":
+            let recommendShow = action.val;
+            return state.update("recommendShow", (val) => val = recommendShow)
     }
     return state;
 }
