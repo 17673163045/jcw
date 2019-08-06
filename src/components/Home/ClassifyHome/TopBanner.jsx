@@ -6,15 +6,7 @@ const r = globalFns.r; //计算rem的函数
 
 class TopBanner extends React.PureComponent {
     state = {
-        data: ['1', '2', '3'],
         imgHeight: 176,
-    }
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({
-                data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
-            });
-        }, 100);
     }
     render() {
         if(!this.props.bannerList) return null;
@@ -23,7 +15,7 @@ class TopBanner extends React.PureComponent {
             <Wrap>
                 <WingBlank>
                     <Carousel
-                        dots={true}
+                        // dots={true}
                         autoplay={true}
                         infinite
                     >

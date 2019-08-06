@@ -10,7 +10,7 @@ class CurrentCity extends PureComponent {
             <NavLink to="/selectCity">
                 <Wrap>
                     <strong></strong>
-                    <i>全国</i>
+                    <i>{this.props.userSelectCity}</i>
                 </Wrap>
             </NavLink>
         )

@@ -50,7 +50,6 @@ class HotCity extends PureComponent {
     // 点击事件,传入item(城市信息),点击修改城市,首页的数据发生改变
     selectCity(item) {
         this.props.changeParams(item);
-        window.localStorage.setItem("selectParams", JSON.stringify(item))
         this.backHome();
     }
     // 返回首页的函数

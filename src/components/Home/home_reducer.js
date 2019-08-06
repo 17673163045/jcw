@@ -6,12 +6,7 @@ const defaultState = immutable.fromJS({
     hot_City: "",  //城市选择模块的热门城市数据
     city_List: "", // 城市选择模块展示所有城市数据
     // 用户选择的城市对应的请求参数,默认是0,全国
-    userSelectParams: immutable.fromJS({
-        city_id: 0,
-        abbreviation: "",
-        version: "6.0.3",
-        referer: 2
-    }),
+    userSelectParams:"",
     classifyHomeData: ""
 })
 export default (state = defaultState, action) => {

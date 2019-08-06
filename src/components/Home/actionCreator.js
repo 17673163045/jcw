@@ -31,7 +31,6 @@ export const changeParams = (dispatch,item)=>{
         dispatch({ type:'CHANGE_PARAMS',val:item})
     }
 }
-
 //请求首页的数据'classifyHome'的dispatch函数,
 export const getClassifyHome = (dispatch,userSelect) =>{
     return ()=>{

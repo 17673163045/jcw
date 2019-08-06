@@ -10,7 +10,7 @@ class TopSearch extends PureComponent {
     render() {
         return (
             <Wrap>
-                <CurrentCity></CurrentCity>
+                <CurrentCity userSelectCity={this.props.userSelectCity}></CurrentCity>
                 <Search></Search>
                 <TopSearchImg>
                     <img src={topsearchimg} alt=""/>
