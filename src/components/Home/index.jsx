@@ -4,16 +4,17 @@ import { connect } from "react-redux"
 // import immutable from "immutable"
 
 //导入组件:
-import TopSearch from "./TopSearch" // 导入顶部搜索条
+//导入下拉刷新组件
+import PullRefresh from "@/components/Home/RecommendShow/PullRefresh"
+// 导入顶部搜索条
+import TopSearch from "./TopSearch"
 //导入顶部轮播,分类,广告,活动组件
 import { TopBanner, ClassifyList, Advert, OperationList } from "@/components/Home/ClassifyHome"
 //导入可复用轮播图组件
 import CommonBanner from "@/components/Home/CommonBanner"
-//导入为你推荐演出的组件
-import RecommendShow from "@/components/Home/RecommendShow"
 
 //导入方法:
-import { getClassifyHome, getHotRecommend, getFlowerShow, getRecommendShow } from "@/components/Home/actionCreator"
+import { getClassifyHome, getHotRecommend, getFlowerShow} from "@/components/Home/actionCreator"
 
 // 展开this.props的数据:
 const mapStateToProps = (state) => {
@@ -23,11 +24,10 @@ const mapStateToProps = (state) => {
         ClassifyHomeData: state.getIn(["HomeReducer", "classifyHomeData"]),//首页分类数据
         hotRecommend: state.getIn(["HomeReducer", "hotRecommendData"]),//首页热门演出数据
         flowerShow: state.getIn(["HomeReducer", "flowerShowData"]),//首页音乐剧,演唱会等数据
-        RecommendShow: state.getIn(["HomeReducer", "recommendShow"]), //为你推荐的数据
     }
 }
 
-//展开方法:
+//展开this.props的方法:
 const mapDispatchToProps = (dispatch) => {
     return {
         //这是触发获取首页classifyHome的方法:
@@ -41,10 +41,6 @@ const mapDispatchToProps = (dispatch) => {
         //这是触发获取音乐剧,儿童剧等数据的方法:
         getFlowerShowData(cityId) {
             dispatch(getFlowerShow(dispatch, cityId))
-        },
-        //这是触发获取为你推荐的数据
-        getRecommendShowData(page) {
-            dispatch(getRecommendShow(dispatch, page))
         }
     }
 }
@@ -82,15 +78,11 @@ class Home extends PureComponent {
 
         //根据城市id获取演唱会,音乐剧,儿童剧等数据
         this.props.getFlowerShowData(cityId)
-
-        //根据用户下拉,加载第page页的为你推荐数据
-        this.props.getRecommendShowData(1)
     }
     render() {
         if (!this.props.ClassifyHomeData) return null;
         if (!this.props.hotRecommend) return null;
         if (!this.props.flowerShow) return null;
-        if (!this.props.RecommendShow) return null;
         //城市选择数据
         let userSelectCity = JSON.parse(window.sessionStorage.getItem("userSelect") || '{"name":"全国"}').name
         //轮播图数据
@@ -104,11 +96,11 @@ class Home extends PureComponent {
         //演唱会,音乐剧等的数据
         let flowerShowData = this.props.flowerShow.data.data;
         flowerShowData = JSON.stringify(flowerShowData) === "{}" ? [] : flowerShowData
-        let flowerShowList = [];
-        let CoverColorList=["rgb(106, 109, 116)","rgb(214, 201, 202)","rgb(137, 40, 45)","rgb(51, 43, 34)","rgb(69, 41, 29)"]
+        let flowerShowRenderList = [];
+        let CoverColorList = ["rgb(106, 109, 116)", "rgb(53, 37, 37)", "rgb(70, 59, 50)", "rgb(113, 148, 90)", "rgb(51, 43, 34)", "rgb(69, 41, 29)"]
         flowerShowData.map((item, index) => {
             if (item.list.length >= 4) {
-                flowerShowList.push(
+                flowerShowRenderList.push(
                     <CommonBanner
                         key={index}
                         bannerList={item.list.slice(1)} //轮播数据
@@ -122,31 +114,31 @@ class Home extends PureComponent {
                 )
             }
         })
-        console.log(flowerShowData)
-        //为你推荐的数据
-        let recommendShow = this.props.RecommendShow.data.data.recommend_show_list
         return (
+
             <div id="home">
-                {/* 顶部搜索条 */}
-                <TopSearch userSelectCity={userSelectCity}></TopSearch>
-                {/* 顶部轮播图 */}
-                <TopBanner bannerList={bannerList}></TopBanner>
-                {/* 分类部分组件 */}
-                <ClassifyList></ClassifyList>
-                {/* 广告部分组件 */}
-                <Advert adList={adList}></Advert>
-                {/* 活动部分组件 */}
-                <OperationList operationList={operationList}></OperationList>
-                {/* 热门演出部分 */}
-                {JSON.stringify(hotRecommend) !== "[]" ? (
-                    <CommonBanner
-                        bannerList={hotRecommend}
-                        title={"热门演出"}
-                    >
-                    </CommonBanner>) : null}
-                {/* 演唱会,音乐剧等等部分 */}
-                {flowerShowList}
-                <RecommendShow recommendShow={recommendShow}></RecommendShow>
+                <PullRefresh>
+                    {/* 顶部搜索条 */}
+                    <TopSearch userSelectCity={userSelectCity}></TopSearch>
+
+                    {/* 顶部轮播图 */}
+                    <TopBanner bannerList={bannerList}></TopBanner>
+                    {/* 分类部分组件 */}
+                    <ClassifyList></ClassifyList>
+                    {/* 广告部分组件 */}
+                    <Advert adList={adList}></Advert>
+                    {/* 活动部分组件 */}
+                    <OperationList operationList={operationList}></OperationList>
+                    {/* 热门演出部分 */}
+                    {JSON.stringify(hotRecommend) !== "[]" ? (
+                        <CommonBanner
+                            bannerList={hotRecommend}
+                            title={"热门演出"}
+                        >
+                        </CommonBanner>) : null}
+                    {/* 演唱会,音乐剧等等部分 */}
+                    {flowerShowRenderList}
+                </PullRefresh>
             </div>
         )
     }

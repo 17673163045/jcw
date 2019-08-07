@@ -35,7 +35,7 @@ const Wrap = styled.div`
     width:100%;
     height:${r(176)};
     padding:${r(12)};
-    background-color:${(props => (props.CoverColor || "#ccc"))};
+    background-color:${(props => (props.CoverColor || '#ccc'))};
     .leftImg{
         width:${r(110)};
         border-radius:4px;
