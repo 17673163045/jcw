@@ -84,7 +84,7 @@ export const getFlowerShow = (dispatch,cityId) =>{
 }
 
 //请求为你推荐的数据
-export const getRecommendShow = (dispatch,page) =>{
+export const getRecommendShow = (dispatch,page,callback) =>{
     return ()=>{
         request({
             method:"get",
@@ -96,6 +96,7 @@ export const getRecommendShow = (dispatch,page) =>{
                 referer:"2"
             }
         }).then((res)=>{
+            callback(res);
             dispatch({type:"GET_RECOMMEND_SHOW",val:res})
         })
     }

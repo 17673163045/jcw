@@ -6,6 +6,7 @@ const r = globalFns.r; //计算rem的函数
 
 class RecommendShow extends PureComponent {
     render() {
+        if(!this.props.recommendShow) return null;
         return (
             <Wrap>
                 <div className="title">为你推荐</div>

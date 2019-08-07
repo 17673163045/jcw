@@ -25,14 +25,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         //这是触发获取为你推荐的数据的方法
-        getRecommendShowData(page) {
-            dispatch(getRecommendShow(dispatch, page))
+        getRecommendShowData(page,callback) {
+            dispatch(getRecommendShow(dispatch,page,callback))
         }
     }
 }
 
-//cData初始显示数据
-const cData = [1, 2, 3, 4, 5, 5]
 export class PullRefresh extends Component {
     constructor() {
         super();
@@ -40,8 +38,8 @@ export class PullRefresh extends Component {
             hasMore: true,
             data: '',
             action: STATS.init,
-            index: 10, //loadMoreLimitNum,加载更多的数量限制,即page页的数量,每次加载后减1,即加载10次
             page: 1,
+            noMoreNode:""
         }
     }
 
@@ -82,38 +80,38 @@ export class PullRefresh extends Component {
         }
         //无更多内容则不执行后面逻辑
         if (!this.state.hasMore) {
+            this.setState({
+                noMoreNode:[<p key={1}>没有更多了</p>]
+            })
             return;
         }
-        setTimeout(() => {
-            // 如果没有更多了,hasMore: false,阻止上拉
-            if (this.state.index === 0) {
+        this.props.getRecommendShowData(++this.state.page,(res)=>{
+            if (JSON.stringify(res.data.data.recommend_show_list) === "[]") {
                 this.setState({
                     action: STATS.reset,
                     hasMore: false
                 });
-            } else {
-                this.props.getRecommendShowData(++this.state.page)
+            }else {
                 //上拉刷新后的回调
-                console.log(this.props.RecommendShow)
-                let arr = [1, 2, 3, 4, 5, 6, 7]; //这是新数据
+                let arr = this.props.RecommendShow.data.data.recommend_show_list; //这是新数据
                 this.setState({
                     data: [...this.state.data, ...arr],  //新数据和旧数据合并
-                    action: STATS.reset,
-                    index: this.state.index - 1
+                    action: STATS.reset
                 });
             }
-        }, 2000)
-
+        })
         this.setState({
             action: STATS.loading
         })
     }
     componentDidMount() {
-        this.props.getRecommendShowData(this.state.page);
+        this.props.getRecommendShowData(this.state.page,(res)=>{this.setState({
+            data:res.data.data.recommend_show_list
+        })});
     }
+
     render() {
-        if (!this.props.RecommendShow) return null;
-        let data = this.props.RecommendShow.data.data.recommend_show_list
+        if (!this.state.data) return null;
         return (
             <div>
                 {/* 配置下拉 */}
@@ -126,8 +124,9 @@ export class PullRefresh extends Component {
                     {this.props.children}
                     {/* 显示为你推荐部分 */}
                     {
-                        <RecommendShow recommendShow={data}></RecommendShow>
+                        <RecommendShow recommendShow={this.state.data}></RecommendShow>
                     }
+                    {this.state.noMoreNode}
                 </ReactPullLoad>
             </div>
         )

@@ -31,11 +31,15 @@
 /*
  * HeadNode default UI
  */
+
+ /* 下拉刷新的盒子样式,设置高度等 */
 .pull-load-head-default {
   text-align: center;
   font-size: 12px;
-  line-height: 3rem;
-  color: #7676a1;
+  line-height: 1rem;
+  font-weight:bolder;
+  color:rgb(240, 153, 122);
+  background:#666;
 }
 
 .state-pulling .pull-load-head-default:after {
@@ -58,6 +62,7 @@
   opacity: 1;
 }
 
+/* 下拉刷新的小箭头样式 */
 .state-pulling .pull-load-head-default i {
   display: inline-block;
   font-size: 2em;
@@ -67,6 +72,8 @@
   border-left: 1px solid;
   position: relative;
   transition: transform .3s ease;
+  color:#f90;
+  font-weight:bolder;
 }
 
 .state-pulling .pull-load-head-default i:before,
@@ -100,10 +107,10 @@
   display: inline-block;
   vertical-align: middle;
   font-size: 1.5rem;
-  width: 1em;
-  height: 1em;
-  border: 2px solid #9494b6;
-  border-top-color: #fff;
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 2px solid rgb(199, 101, 101,.5);
+  border-top-color: rgb(255, 255, 255,1);
   border-radius: 100%;
   animation: circle .8s infinite linear;
 }
@@ -138,10 +145,14 @@
   transform: rotate(40deg);
 }
 
+
+/* 上拉底部加载 */
+.pull-load-footer{
+}
 .pull-load-footer-default {
   text-align: center;
   font-size: 12px;
-  line-height: 3rem;
+  line-height: 1rem;
   color: #7676a1;
 }
 
@@ -150,18 +161,21 @@
 }
 
 .pull-load-footer-default.nomore:after {
+  display:block;
   content: '没有更多';
+  font-size: 0.7rem;
+  height:0.7rem
 }
 
 .state-loading .pull-load-footer-default i {
   margin-right: 10px;
   display: inline-block;
   vertical-align: middle;
-  font-size: 1.5rem;
+  font-size: 0.7rem;
   width: 1em;
   height: 1em;
-  border: 2px solid #9494b6;
-  border-top-color: #fff;
+  border: 2px solid #f90;
+  border-top-color: #f90;
   border-radius: 100%;
   animation: circle .8s infinite linear;
 }
