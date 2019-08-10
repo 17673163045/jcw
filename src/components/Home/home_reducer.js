@@ -10,6 +10,7 @@ const defaultState = immutable.fromJS({
     hotRecommendData: "", //热门演出数据
     flowerShowData: "", //演唱会等数据
     recommendShow: "",//为你推荐的数据
+    CurrentPage: "",//用户当前在的模块,首页/剧院/票夹/我的
 })
 export default (state = defaultState, action) => {
     switch (action.type) {
@@ -40,7 +41,12 @@ export default (state = defaultState, action) => {
         //为你推荐的数据
         case "GET_RECOMMEND_SHOW":
             let recommendShow = action.val;
-            return state.update("recommendShow", (val) => val = recommendShow)
+            return state.update("recommendShow", (val) => val = recommendShow);
+        // 用户当前在的模块,
+        case "GET_CURRENT_PAGE":
+            let currentPage = action.val;
+            return state.update("CurrentPage", (val) => val = currentPage)
+        default:
+            return state;
     }
-    return state;
 }

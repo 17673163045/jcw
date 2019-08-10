@@ -6,10 +6,11 @@ const r = globalFns.r; //计算rem的函数
 
 class CurrentSelect extends Component {
     render() {
+        let currentCity = JSON.parse(window.sessionStorage.getItem("userSelect")).name
         return (
             <Wrap>
                 <Title>当前城市</Title>
-                <CityButton>上海</CityButton>
+                <CityButton>{currentCity}</CityButton>
             </Wrap>
         )
     }

@@ -6,19 +6,18 @@ export const getHotCity = (dispatch)=>{
     return ()=>{
         request({
             method:"get",
-            url:"/city/city/getHotCityList?version=6.0.1&referer=2"
+            url:"/apis/city/city/getHotCityList?version=6.0.1&referer=2"
         }).then((res)=>{
             dispatch({ type:"GET_HOT_CITY",val:res})
         })
     }
 }
-
 // 请求城市选择模块的所有城市展示数据
 export const getCityList = (dispatch) => {
     return () => {
         request({
             method: "get",
-            url: "/city/city/getSortedCityList?version=6.0.1&referer=2"
+            url: "/apis/city/city/getSortedCityList?version=6.0.1&referer=2"
         }).then((res) => {
             dispatch({ type: "GET_CITY_List", val: res })
         })
@@ -36,7 +35,7 @@ export const getClassifyHome = (dispatch,userSelect) =>{
     return ()=>{
         request({
             method:"get",
-            url:"/home/index/getClassifyHome",
+            url:"/apis/home/index/getClassifyHome",
             params:{
                 city_id: userSelect.id,
                 abbreviation: userSelect.Abbreviation,
@@ -54,7 +53,7 @@ export const getHotRecommend = (dispatch,cityId) =>{
     return ()=>{
         request({
             method:"get",
-            url:"/home/index/getHotsRecommendList",
+            url:"/apis/home/index/getHotsRecommendList",
             params:{
                 city_id: cityId,
                 version:"6.0.3",
@@ -71,7 +70,7 @@ export const getFlowerShow = (dispatch,cityId) =>{
     return ()=>{
         request({
             method:"get",
-            url:"/home/index/getFloorShow",
+            url:"/apis/home/index/getFloorShow",
             params:{
                 city_id: cityId,
                 version: "6.0.3",
@@ -84,13 +83,13 @@ export const getFlowerShow = (dispatch,cityId) =>{
 }
 
 //请求为你推荐的数据
-export const getRecommendShow = (dispatch,page,callback) =>{
+export const getRecommendShow = (dispatch, page,cityAdd,callback) =>{
     return ()=>{
         request({
             method:"get",
-            url:"/home/index/getRecommendShow",
+            url:"/apis/home/index/getRecommendShow",
             params:{
-                cityAdd:"",
+                cityAdd:cityAdd,
                 page: page,
                 version:"6.0.3",
                 referer:"2"
@@ -99,5 +98,12 @@ export const getRecommendShow = (dispatch,page,callback) =>{
             callback(res);
             dispatch({type:"GET_RECOMMEND_SHOW",val:res})
         })
+    }
+}
+
+//用户当前在的模块,首页/剧院/票夹/我的
+export const getCurrentPage = (dispatch,index)=>{
+    return ()=>{
+        dispatch({type:"GET_CURRENT_PAGE",val:index})
     }
 }

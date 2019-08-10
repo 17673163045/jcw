@@ -1,6 +1,8 @@
 // 这是首页组件
 import React, { PureComponent } from "react"
 import { connect } from "react-redux"
+import styled from "styled-components"
+import globalFns from "@/core/globalFns"
 // import immutable from "immutable"
 
 //导入组件:
@@ -8,14 +10,17 @@ import { connect } from "react-redux"
 import PullRefresh from "@/components/Home/RecommendShow/PullRefresh"
 // 导入顶部搜索条
 import TopSearch from "./TopSearch"
+//导入底部导航切换组件
+import BottomToggle from "@/components/PublicCom/BottomToggle"
 //导入顶部轮播,分类,广告,活动组件
 import { TopBanner, ClassifyList, Advert, OperationList } from "@/components/Home/ClassifyHome"
 //导入可复用轮播图组件
 import CommonBanner from "@/components/Home/CommonBanner"
 
 //导入方法:
-import { getClassifyHome, getHotRecommend, getFlowerShow} from "@/components/Home/actionCreator"
-
+import { getClassifyHome, getHotRecommend, getFlowerShow } from "@/components/Home/actionCreator"
+import { getClassifyCategory } from "@/components/Classify/actionCreator"
+const r = globalFns.r; //计算rem的函数
 // 展开this.props的数据:
 const mapStateToProps = (state) => {
     return {
@@ -41,12 +46,16 @@ const mapDispatchToProps = (dispatch) => {
         //这是触发获取音乐剧,儿童剧等数据的方法:
         getFlowerShowData(cityId) {
             dispatch(getFlowerShow(dispatch, cityId))
+        },
+        // 这是改变分类标记的方法
+        getClassifyCategory(category){
+            dispatch(getClassifyCategory(dispatch, category))
         }
     }
 }
 
 class Home extends PureComponent {
-    componentDidMount() {
+    componentWillMount() {
         //根据用户选择的城市渲染页面,并且存到localstorage
         //获取storage的用户选择城市信息,可能为空
         let userSelect = window.sessionStorage.getItem("userSelect");
@@ -84,7 +93,7 @@ class Home extends PureComponent {
         if (!this.props.hotRecommend) return null;
         if (!this.props.flowerShow) return null;
         //城市选择数据
-        let userSelectCity = JSON.parse(window.sessionStorage.getItem("userSelect") || '{"name":"全国"}').name
+        let userSelectCity = JSON.parse(window.sessionStorage.getItem("userSelect"))
         //轮播图数据
         let bannerList = this.props.ClassifyHomeData.data.data.slide_list
         //广告数据
@@ -115,33 +124,47 @@ class Home extends PureComponent {
             }
         })
         return (
-
-            <div id="home">
-                <PullRefresh>
+            <Wrap>
+                <div className="main">
                     {/* 顶部搜索条 */}
-                    <TopSearch userSelectCity={userSelectCity}></TopSearch>
-
-                    {/* 顶部轮播图 */}
-                    <TopBanner bannerList={bannerList}></TopBanner>
-                    {/* 分类部分组件 */}
-                    <ClassifyList></ClassifyList>
-                    {/* 广告部分组件 */}
-                    <Advert adList={adList}></Advert>
-                    {/* 活动部分组件 */}
-                    <OperationList operationList={operationList}></OperationList>
-                    {/* 热门演出部分 */}
-                    {JSON.stringify(hotRecommend) !== "[]" ? (
-                        <CommonBanner
-                            bannerList={hotRecommend}
-                            title={"热门演出"}
-                        >
-                        </CommonBanner>) : null}
-                    {/* 演唱会,音乐剧等等部分 */}
-                    {flowerShowRenderList}
-                </PullRefresh>
-            </div>
+                    <PullRefresh userSelectCity={userSelectCity}>
+                        <TopSearch userSelectCity={userSelectCity.name}></TopSearch>
+                        {/* 顶部轮播图 */}
+                        <TopBanner bannerList={bannerList}></TopBanner>
+                        {/* 分类部分组件 */}
+                        <ClassifyList getClassifyCategory={this.props.getClassifyCategory}></ClassifyList>
+                        {/* 广告部分组件 */}
+                        <Advert adList={adList}></Advert>
+                        {/* 活动部分组件 */}
+                        <OperationList operationList={operationList}></OperationList>
+                        {/* 热门演出部分 */}
+                        {JSON.stringify(hotRecommend) !== "[]" ? (
+                            <CommonBanner
+                                bannerList={hotRecommend}
+                                title={"热门演出"}
+                            >
+                            </CommonBanner>) : null}
+                        {/* 演唱会,音乐剧等等部分 */}
+                        {flowerShowRenderList}
+                    </PullRefresh>
+                </div>
+                <div className="footer">
+                    <BottomToggle history={this.props.history} location={this.props.location}></BottomToggle>
+                </div>
+            </Wrap>
         )
     }
 }
+
+const Wrap = styled.div`
+    display:flex;
+    flex-direction:column;
+    .main{
+        flex:1;
+    }
+    .footer{
+        height:${r(50)}
+    }
+`
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

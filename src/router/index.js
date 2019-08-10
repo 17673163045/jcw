@@ -5,9 +5,8 @@ import Home from "@/components/Home"
 import City from "@/components/Home/City"
 
 import Theatre from "@/components/Theatre"
-import Wallet from "@/components/Wallet"
+import Classify from "@/components/Classify"
 import UserMy from "@/components/UserMy"
-
 
 export default class extends PureComponent {
     render() {
@@ -17,7 +16,7 @@ export default class extends PureComponent {
                     <Route exact path="/home" component={Home}></Route>
                     <Route exact path="/selectCity" component={City}></Route>
                     <Route exact path="/theatre" component={Theatre}></Route>
-                    <Route exact path="/wallet" component={Wallet}></Route>
+                    <Route exact path="/classify" component={Classify}></Route>
                     <Route exact path="/usermy" component={UserMy}></Route>
                     <Redirect path="/" to="/home"></Redirect>
                 </Switch>

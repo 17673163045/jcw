@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react"
 import styled from "styled-components"
-import CurrentCity from "./CurrentCity" // 导入定位城市组件 
+import CurrentCity from "@/components/Home/TopSearch/CurrentCity" // 导入定位城市组件 
 import Search from "./Search"// 导入搜索框
 import globalFns from "@/core/globalFns"
 const r = globalFns.r; //计算rem的函数

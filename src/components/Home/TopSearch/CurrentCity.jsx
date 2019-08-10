@@ -11,7 +11,6 @@ const placeIcon2 = require("@/images/CurrentCity2.png"); // 定位小图标2
 
 class CurrentCity extends PureComponent {
     render() {
-        console.log(this.props.citybackgroundimg)
         return (
             <NavLink to="/selectCity">
                 <Wrap cityBackgroundColor={this.props.cityBackgroundColor} cityColor={this.props.cityColor}>

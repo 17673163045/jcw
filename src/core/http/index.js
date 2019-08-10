@@ -1,9 +1,8 @@
 // 这是对axios的公共配置部分
 import axios from "axios"
 
-
 var instance = axios.create({
-    baseURL:"",
+    baseURL: process.env.BASE_API,
     //设置超时时间
     // `timeout` 指定请求超时的毫秒数(0 表示无超时时间)
     // 如果请求话费了超过 `timeout` 的时间，请求将被中断
@@ -13,17 +12,17 @@ var instance = axios.create({
     // `transformRequest` 允许在向服务器发送前，修改请求数据
     // 只能用在 'PUT', 'POST' 和 'PATCH' 这几个请求方法
     // 后面数组中的函数必须返回一个字符串，或 ArrayBuffer，或 Stream
-    transformRequest: [function (data) {
-        // 对 data 进行任意转换处理
-        return data;
-    }],
+    // transformRequest: [function (data) {
+    //     // 对 data 进行任意转换处理
+    //     return data;
+    // }],
     // `transformResponse` 在传递给 then/catch 前，允许修改响应数据
-    transformResponse: [function (data) {
-        // 对 data 进行任意转换处理
+    // transformResponse: [function (data) {
+    //     // 对 data 进行任意转换处理
 
-        return data;
-    }],
-    responseType: 'json'
+    //     return data;
+    // }],
+    // responseType: 'json'
 })
 
 // 添加请求拦截器

@@ -1,47 +1,29 @@
-// 下拉刷新上拉加载的组件,利用react-pullload
+//这是分类组件
 import React, { PureComponent } from "react"
+import globalFns from "@/core/globalFns"
 import { connect } from "react-redux"
-
+import { withRouter } from "react-router-dom"
 //导入react-pullload插件
 import ReactPullLoad, { STATS } from 'react-pullload'
 
 //导入下拉,上拉样式
 import "./PullRefresh.css"
 
-//导入热门推荐组件,这是需要上拉加载不同page页的组件
-import RecommendShow from "./index"
-import NoMoreNode from "./NoMoreNode"
-//导入请求热门推荐数据的接口的方法
-import { getRecommendShow } from "@/components/Home/actionCreator"
+//导入分类热门推荐组件,这是需要上拉加载不同page页的组件
+import RecommendShow from "@/components/Home/RecommendShow"
 
-// 展开this.props的数据:
-const mapStateToProps = (state) => {
-    return {
-        RecommendShow: state.getIn(["HomeReducer", "recommendShow"]), //为你推荐的数据
-        userSelectParams: state.getIn(["HomeReducer", "userSelectParams"]),
-    }
-}
+const r = globalFns.r; //计算rem的函数
 
-//展开this.props的方法:
-const mapDispatchToProps = (dispatch) => {
-    return {
-        //这是触发获取为你推荐的数据的方法
-        getRecommendShowData(page, cityAdd, callback) {
-            dispatch(getRecommendShow(dispatch, page, cityAdd, callback))
-        }
-    }
-}
-
-export class PullRefresh extends PureComponent {
+export class ClassifyShowList extends PureComponent {
     constructor() {
         super();
         this.state = {
             hasMore: true,
-            data: '',
             action: STATS.init,
             page: 1,
-            CityAdd: "",
-            noMoreNode: ""
+            city_id: "",
+            noMoreNode: "",
+            total: ""
         }
     }
 
@@ -83,11 +65,11 @@ export class PullRefresh extends PureComponent {
         //无更多内容则不执行后面逻辑
         if (!this.state.hasMore) {
             this.setState({
-                noMoreNode: [<NoMoreNode key={1}></NoMoreNode>]
+                noMoreNode: [<div style={{ color: "#ccc", paddingBottom: `${r(10)}`, textAlign: "center" }} key={1}>没有更多了</div>]
             })
             return;
         }
-        this.props.getRecommendShowData(++this.state.page, this.state.CityAdd, (res) => {
+        this.props.getClassifyRecommendShow(this.props.category, this.state.city_id, ++this.state.page, (res) => {
             if (JSON.stringify(res.data.data.recommend_show_list) === "[]") {
                 this.setState({
                     action: STATS.reset,
@@ -95,9 +77,8 @@ export class PullRefresh extends PureComponent {
                 });
             } else {
                 //上拉刷新后的回调
-                let arr = this.props.RecommendShow.data.data.recommend_show_list; //这是新数据
                 this.setState({
-                    data: [...this.state.data, ...arr],  //新数据和旧数据合并
+                    // data: [...this.state.data, ...arr],  //新数据和旧数据合并
                     action: STATS.reset
                 });
             }
@@ -106,40 +87,32 @@ export class PullRefresh extends PureComponent {
             action: STATS.loading
         })
     }
+
     componentDidMount() {
-        let userSelectCity = JSON.parse(window.sessionStorage.getItem("userSelect"));
-        let CityAdd = userSelectCity.Abbreviation;
-        this.setState({
-            CityAdd
-        }, () => {
-            this.props.getRecommendShowData(this.state.page, this.state.CityAdd, (res) => {
-                this.setState({
-                    data: res.data.data.recommend_show_list
-                })
-            });
-        })
+        let city_id = JSON.parse(window.sessionStorage.getItem("userSelect")).id;
+        this.setState([
+            city_id
+        ])
     }
     render() {
-        if (!this.state.data) return null;
         return (
             <div>
                 {/* 配置下拉 */}
-                <ReactPullLoad
+                < ReactPullLoad
                     downEnough={50}
                     action={this.state.action}
                     handleAction={this.handleAction}
-                    distanceBottom={50}>
-                    {/* 显示主页所有的组件 */}
-                    {this.props.children}
+                    distanceBottom={50} >
                     {/* 显示为你推荐部分 */}
                     {
-                        <RecommendShow recommendShow={this.state.data} isTitle={true}></RecommendShow>
+                        < RecommendShow recommendShow={this.props.ClassifyRecommendShow} ></RecommendShow >
                     }
+                    {/* 没有更多 */}
                     {this.state.noMoreNode}
-                </ReactPullLoad>
-            </div>
+                </ReactPullLoad >
+            </div >
         )
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PullRefresh)
+export default withRouter(ClassifyShowList)
