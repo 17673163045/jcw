@@ -24,7 +24,7 @@ class ClassifyList extends Component {
             itemList.push(
                 <LabelItem key={index} >
                     <Link to={item.path}>
-                        <Item_ImgContain onClick={this.handGetClassifyCategory.bind(this,item)}>
+                        <Item_ImgContain onClick={this.handGetClassifyCategory.bind(this, item)}>
                             <Item_Img src={item.ImgUrl}></Item_Img>
                         </Item_ImgContain>
                         <Item_Title>{item.title}</Item_Title>
@@ -36,8 +36,8 @@ class ClassifyList extends Component {
             itemList
         })
     }
-    handGetClassifyCategory(item){
-        window.localStorage.setItem("category",item.query.caid)
+    handGetClassifyCategory(item) {
+        window.localStorage.setItem("category", item.query.caid)
         this.props.getClassifyCategory(item.query.caid)
     }
     render() {
